@@ -1,5 +1,6 @@
 package com.harin.plugins
 
+import com.harin.model.request.LoginRequest
 import io.ktor.server.routing.*
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -41,6 +42,33 @@ fun Application.configureRouting() {
         get("/user/{userId}/name"){
             val userId = call.parameters["userId"]
             call.respondText("You have requested for the user id = ${userId}, and the Name of user is John")
+        }
+
+
+        /**
+         * when request is with body parameters like
+         * {
+         *     "email" : "john@gmail.com",
+         *     "password" : "123"
+         * }
+         */
+        post("/login"){
+
+            // if user not send any field then this steps throw kotlinx.serialization.MissingFieldException
+            val loginRequest = call.receive<LoginRequest>()
+            println("email : ${loginRequest.email}")
+            println("password : ${loginRequest.password}")
+            call.respondText("User login success.")
+
+            // we can handle that exception like below
+            //try {
+            //    val loginRequest = call.receive<LoginRequest>()
+            //    println("email : ${loginRequest.email}")
+            //    println("password : ${loginRequest.password}")
+            //}catch (exception: Exception){
+            //    exception.printStackTrace()
+            //}
+
         }
     }
 }
