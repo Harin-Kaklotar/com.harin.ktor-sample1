@@ -1,6 +1,7 @@
 package com.harin.plugins
 
 import com.harin.model.request.LoginRequest
+import com.harin.model.request.UserResponse
 import io.ktor.server.routing.*
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -69,6 +70,17 @@ fun Application.configureRouting() {
             //    exception.printStackTrace()
             //}
 
+        }
+
+        get("/user"){
+
+            // we can send any error code and message as we want
+            //call.respondText("Time out error", status = HttpStatusCode.GatewayTimeout)
+            //call.respondText("Not found error", status = HttpStatusCode.NotFound)
+            //call.respondText("My error message", status = HttpStatusCode.MethodNotAllowed)
+
+            val userResponse = UserResponse("John", "john@gmail.com")
+            call.respond(userResponse)
         }
     }
 }
