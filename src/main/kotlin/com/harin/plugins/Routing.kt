@@ -25,5 +25,22 @@ fun Application.configureRouting() {
 
             call.respondText("Hello World!")
         }
+
+        /**
+         * when we are working with url parameters
+         */
+        get("/iphones/{page}"){
+            // we can get any url parameters using below syntax
+            val pageNumber = call.parameters["page"]
+            call.respondText("You are on page number : ${pageNumber}")
+        }
+        get("/user/{userId}"){
+            val userId = call.parameters["userId"]
+            call.respondText("You have requested for the user id = ${userId}")
+        }
+        get("/user/{userId}/name"){
+            val userId = call.parameters["userId"]
+            call.respondText("You have requested for the user id = ${userId}, and the Name of user is John")
+        }
     }
 }
