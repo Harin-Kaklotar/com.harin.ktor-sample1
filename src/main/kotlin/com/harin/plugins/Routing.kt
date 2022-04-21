@@ -82,5 +82,16 @@ fun Application.configureRouting() {
             val userResponse = UserResponse("John", "john@gmail.com")
             call.respond(userResponse)
         }
+
+        /**
+         * when we don't want to send some information in response
+         * we can send it in headers
+         * we can send custom headers with values
+         */
+        get("/headers"){
+            call.response.headers.append("server-name", "KtorServer")
+            call.response.headers.append("chocolate", "Dairy-Milk & KitKat")
+            call.respondText("Just check header!")
+        }
     }
 }
