@@ -7,6 +7,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.request.*
+import java.io.File
 
 fun Application.configureRouting() {
 
@@ -93,5 +94,42 @@ fun Application.configureRouting() {
             call.response.headers.append("chocolate", "Dairy-Milk & KitKat")
             call.respondText("Just check header!")
         }
+
+        /**
+         * file download from browser
+         */
+        get("/fileDownload"){
+
+            val downloadingFile = File("file/mickey_mouse.jpeg")
+
+            call.response.header(
+                HttpHeaders.ContentDisposition,
+                ContentDisposition.Attachment.withParameter(
+                    ContentDisposition.Parameters.FileName, "mickey_mouse.jpeg"
+                ).toString()
+            )
+
+            call.respondFile(downloadingFile)
+
+        }
+
+        /**
+         * open file in browser
+         */
+        get("/fileOpen"){
+
+            val downloadingFile = File("file/minnie_mouse.jpeg")
+
+            call.response.header(
+                HttpHeaders.ContentDisposition,
+                ContentDisposition.Inline.withParameter(
+                    ContentDisposition.Parameters.FileName, "minnie_mouse.jpeg"
+                ).toString()
+            )
+
+            call.respondFile(downloadingFile)
+
+        }
+
     }
 }
