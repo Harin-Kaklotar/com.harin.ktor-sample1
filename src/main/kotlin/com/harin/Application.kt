@@ -48,18 +48,24 @@ fun main() {
 //        }
 
         // update item, pass table entity as parameter where we want's to update
-        database.update(NoteEntity){
-            // set value which we want's to update
-            set(it.note, "Learning Ktor + Ktorm + ySql")
-            // put condition where we want's to update that value
-            where { it.id eq 1 }
-        }
+        //database.update(NoteEntity){
+        //    // set value which we want's to update
+        //    set(it.note, "Learning Ktor + Ktorm + ySql")
+        //    // put condition where we want's to update that value
+        //    where { it.id eq 1 }
+        //}
+//
+        //database.update(NoteEntity){
+        //    set(it.note, "make habit of daily morning walk")
+        //    where { it.id eq 4 }
+        //}
 
-        database.update(NoteEntity){
-            set(it.note, "make habit of daily morning walk")
-            where { it.id eq 4 }
+        // delete item from table
+        // pass the entity object as parameter
+        database.delete(NoteEntity){
+            // this is where close so here we have to pass he conditions
+            it.id eq 5
         }
-
 
         install(ContentNegotiation){ // we can declare this on our route function also
             json()
