@@ -8,9 +8,7 @@ import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
 import org.ktorm.database.Database
-import org.ktorm.dsl.from
-import org.ktorm.dsl.insert
-import org.ktorm.dsl.select
+import org.ktorm.dsl.*
 
 fun main() {
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
@@ -44,10 +42,24 @@ fun main() {
 
         // database fetch operation
         // fetch all data form 'note' table
-        val notes = database.from(NoteEntity).select()
-        for (row in notes){
-            println("${row[NoteEntity.id]}: ${row[NoteEntity.note]}")
+//        val notes = database.from(NoteEntity).select()
+//        for (row in notes){
+//            println("${row[NoteEntity.id]}: ${row[NoteEntity.note]}")
+//        }
+
+        // update item, pass table entity as parameter where we want's to update
+        database.update(NoteEntity){
+            // set value which we want's to update
+            set(it.note, "Learning Ktor + Ktorm + ySql")
+            // put condition where we want's to update that value
+            where { it.id eq 1 }
         }
+
+        database.update(NoteEntity){
+            set(it.note, "make habit of daily morning walk")
+            where { it.id eq 4 }
+        }
+
 
         install(ContentNegotiation){ // we can declare this on our route function also
             json()
