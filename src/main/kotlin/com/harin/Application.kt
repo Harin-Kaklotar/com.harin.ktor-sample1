@@ -8,7 +8,9 @@ import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
 import org.ktorm.database.Database
+import org.ktorm.dsl.from
 import org.ktorm.dsl.insert
+import org.ktorm.dsl.select
 
 fun main() {
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
@@ -23,21 +25,28 @@ fun main() {
 
         // insert item into the database
         // pass table object as parameter where we perform insert operation
-        database.insert(NoteEntity){
-            // no need to add id because it's auto increment
-            set(NoteEntity.note, "Learning ktor with ktorm")
-        }
+//        database.insert(NoteEntity){
+//            // no need to add id because it's auto increment
+//            set(NoteEntity.note, "Learning ktor with ktorm")
+//        }
+//
+//        database.insert(NoteEntity){
+//            set(NoteEntity.note, "Attend wedding")
+//        }
+//
+//        database.insert(NoteEntity){
+//            set(NoteEntity.note, "Go for walk")
+//        }
+//
+//        database.insert(NoteEntity){
+//            set(NoteEntity.note, "talk with mom and dad")
+//        }
 
-        database.insert(NoteEntity){
-            set(NoteEntity.note, "Attend wedding")
-        }
-
-        database.insert(NoteEntity){
-            set(NoteEntity.note, "Go for walk")
-        }
-
-        database.insert(NoteEntity){
-            set(NoteEntity.note, "talk with mom and dad")
+        // database fetch operation
+        // fetch all data form 'note' table
+        val notes = database.from(NoteEntity).select()
+        for (row in notes){
+            println("${row[NoteEntity.id]}: ${row[NoteEntity.note]}")
         }
 
         install(ContentNegotiation){ // we can declare this on our route function also
